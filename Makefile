@@ -6,45 +6,48 @@
 #
 # 'make depend' uses makedepend to automatically generate dependencies 
 #               (dependencies are added to end of Makefile)
-# 'make'        build executable file 'mycc'
+# 'make'        builds for default linux
 # 'make clean'  removes all .o and executable files
 #
 
 # define the C compiler to use
 CC = g++
 
+# define default make file location
+DEFAULT_MAKE = linux
+
+
+# define the executable location
+WIN_DIR = bin
+LINUX_DIR = bin
+OSX_DIR = bin
+
+# define the executable file 
+MAIN = abacus
+
+
+
 # define any compile-time flags
 CFLAGS = -Wall -g
 
-# define any directories containing header files other than /usr/include
-#
-INCLUDES = 
+# OS Specific compile-time flags
+WIN_CFLAGS = -DOS_WIN32
+LINUX_CFLAGS = -DOS_LINUX
+OSX_CFLAGS = -DOS_OSX
 
-# define library paths in addition to /usr/lib
-#   if I wanted to include libraries not in /usr/lib I'd specify
-#   their path using -Lpath, something like:
-LFLAGS = 
-
-# define any libraries to link into executable:
-#   if I want to link in libraries (libx.so or libx.a) I use the -llibname 
-#   option, something like (this will link in libmylib.so and libm.so:
-LIBS = 
-
-# define the C source files
+# define the general source files
 SRCS = main.cpp
 
-# define the C object files 
-#
-# This uses Suffix Replacement within a macro:
-#   $(name:string1=string2)
-#         For each word in 'name' replace 'string1' with 'string2'
-# Below we are replacing the suffix .c of all words in the macro SRCS
-# with the .o suffix
-#
-OBJS = $(SRCS:.c=.o)
+# OS Specific Source files
+WIN_SRCS = test_win.cpp
+LINUX_SRCS = test_linux.cpp
+OSX_SRCS =
 
-# define the executable file 
-MAIN = abacus.bin
+
+WIN_OBJS = $(SRCS:.c=.o) $(WIN_SRCS:.c=.o)
+LINUX_OBJS = $(SRCS:.c=.o) $(LINUX_SRCS:.c=.o)
+OSX_OBJS = $(SRCS:.c=.o) $(OSX_SRCS:.c=.o)
+
 
 #
 # The following part of the makefile is generic; it can be used to 
@@ -54,10 +57,18 @@ MAIN = abacus.bin
 
 .PHONY: depend clean
 
-all:    $(MAIN)
+all:    $(DEFAULT_MAKE)
 
-$(MAIN): $(OBJS) 
-		$(CC) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(OBJS) $(LFLAGS) $(LIBS)
+
+win32:	$(WIN_OBJS)
+		$(CC) $(CFLAGS) $(WIN_CFLAGS) -o $(WIN_DIR)\$(MAIN).exe $(WIN_OBJS)
+
+linux:	$(LINUX_OBJS)
+		$(CC) $(CFLAGS) $(LINUX_CFLAGS) -o $(LINUX_DIR)/$(MAIN) $(LINUX_OBJS)
+
+osx:	$(OSX_OBJS)
+		$(CC) $(CFLAGS) $(OSX_CFLAGS) -o $(OSX_DIR)/$(MAIN) $(OSX_OBJS)
+
 
 # this is a suffix replacement rule for building .o's from .c's
 # it uses automatic variables $<: the name of the prerequisite of
