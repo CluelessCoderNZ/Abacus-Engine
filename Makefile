@@ -1,5 +1,5 @@
 # This is a temporary make file that we are not the author of
-# Taken From: https://www.cs.swarthmore.edu/~newhall/unixhelp/howto_makefiles.html
+# Based From: https://www.cs.swarthmore.edu/~newhall/unixhelp/howto_makefiles.html
 # 
 # TODO(Connor): Replace make file with our own version 
 
@@ -25,10 +25,14 @@ OSX_DIR = bin
 # define the executable file 
 MAIN = abacus
 
+# define libraries
+WIN_LIBS =
+LINUX_LIBS = -lX11
+OSX_LIBS = 
 
 
 # define any compile-time flags
-CFLAGS = -Wall -g
+CFLAGS = 
 
 # OS Specific compile-time flags
 WIN_CFLAGS = -DOS_WIN32
@@ -39,8 +43,8 @@ OSX_CFLAGS = -DOS_OSX
 SRCS = main.cpp
 
 # OS Specific Source files
-WIN_SRCS = test_win.cpp
-LINUX_SRCS = test_linux.cpp
+WIN_SRCS = 
+LINUX_SRCS = linux_platform.cpp
 OSX_SRCS =
 
 
@@ -61,13 +65,13 @@ all:    $(DEFAULT_MAKE)
 
 
 win32:	$(WIN_OBJS)
-		$(CC) $(CFLAGS) $(WIN_CFLAGS) -o $(WIN_DIR)\$(MAIN).exe $(WIN_OBJS)
+		$(CC) $(CFLAGS) $(WIN_CFLAGS) -o $(WIN_DIR)\$(MAIN).exe $(WIN_OBJS) $(WIN_LIBS)
 
 linux:	$(LINUX_OBJS)
-		$(CC) $(CFLAGS) $(LINUX_CFLAGS) -o $(LINUX_DIR)/$(MAIN) $(LINUX_OBJS)
+		$(CC) $(CFLAGS) $(LINUX_CFLAGS) -o $(LINUX_DIR)/$(MAIN) $(LINUX_OBJS) $(LINUX_LIBS)
 
 osx:	$(OSX_OBJS)
-		$(CC) $(CFLAGS) $(OSX_CFLAGS) -o $(OSX_DIR)/$(MAIN) $(OSX_OBJS)
+		$(CC) $(CFLAGS) $(OSX_CFLAGS) -o $(OSX_DIR)/$(MAIN) $(OSX_OBJS) $(OSX_LIBS)
 
 
 # this is a suffix replacement rule for building .o's from .c's
