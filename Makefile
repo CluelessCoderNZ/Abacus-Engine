@@ -32,7 +32,7 @@ OSX_LIBS =
 
 
 # define any compile-time flags
-CFLAGS = 
+CFLAGS = -Wno-narrowing -DTRIANGLE_WINDING_CCW
 
 # OS Specific compile-time flags
 WIN_CFLAGS = -DOS_WIN32
@@ -40,7 +40,7 @@ LINUX_CFLAGS = -DOS_LINUX
 OSX_CFLAGS = -DOS_OSX
 
 # define the general source files
-SRCS = main.cpp
+SRCS = main.cpp render_backend.cpp render.cpp
 
 # OS Specific Source files
 WIN_SRCS = 
