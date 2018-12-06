@@ -1,3 +1,4 @@
 ## Abacus Engine
 ---
-A simple engine to help two [NZ](https://www.reddit.com/r/MapsWithoutNZ/comments/8ctl8m/happy_opposite_day/) uni students program better.
+
+Currently only compiles only linux. Simple compile just run make. The executable defaults to the bin directory.
